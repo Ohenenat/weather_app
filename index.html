@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Real-time Weather Information</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Search -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">Weather</h1>
+                <div class="controls">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="Search city..."
+                            autocomplete="off"
+                        >
+                        <button id="searchBtn" class="search-btn" title="Search">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="locationBtn" class="location-btn" title="Use my location">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </button>
+                    <button id="unitsToggle" class="units-toggle" title="Toggle Celsius/Fahrenheit">°C</button>
+                    <button id="soundToggle" class="sound-toggle" title="Toggle sound">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- Main Weather Display -->
+        <main class="weather-main">
+            <!-- Current Weather Section -->
+            <section class="current-weather">
+                <div class="weather-top">
+                    <div class="temperature-section">
+                        <div class="weather-icon" id="weatherIcon">
+                            <svg width="80" height="80" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" fill="#FFD700" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <div class="temp-info">
+                            <div class="temperature">
+                                <span id="currentTemp">--</span><span class="unit">°C</span>
+                            </div>
+                            <div class="condition" id="weatherCondition">--</div>
+                            <div class="location" id="locationName">--</div>
+                        </div>
+                    </div>
+                    <div class="weather-details-grid">
+                        <div class="weather-detail">
+                            <div class="detail-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.32 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Humidity</div>
+                                <div class="detail-value" id="humidity">--%</div>
+                            </div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 6v6l4 2"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Pressure</div>
+                                <div class="detail-value" id="pressure">-- mb</div>
+                            </div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9.59 0.885L8.13 7H15.37L13.91 0.885A1 1 0 0 0 12.5 0H10.5A1 1 0 0 0 9.59 0.885Z"></path>
+                                    <path d="M3 13a6 6 0 0 0 12 0"></path>
+                                    <path d="M9 18h6"></path>
+                                    <path d="M9 22h6"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Wind Speed</div>
+                                <div class="detail-value" id="windSpeed">-- m/s</div>
+                            </div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-label">Feels Like</div>
+                                <div class="detail-value" id="feelsLike">--°C</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hourly Forecast Section -->
+            <section class="hourly-forecast">
+                <h2 class="section-title">Hourly Forecast</h2>
+                <div class="forecast-scroll" id="hourlyForecast">
+                    <!-- Dynamically populated -->
+                </div>
+            </section>
+
+            <!-- Extended Forecast (Optional) -->
+            <section class="extended-forecast">
+                <h2 class="section-title">Extended Forecast</h2>
+                <div class="forecast-grid" id="extendedForecast">
+                    <!-- Dynamically populated -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Hidden Audio Element for Rain Sound -->
+    <audio id="rainAudio" loop preload="none">
+        <source src="audio/rain-sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
